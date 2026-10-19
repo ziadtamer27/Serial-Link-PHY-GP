@@ -1,4 +1,3 @@
-
 module encoder_5b6b_ref (encoder_5b6b_if.DUT sif);
 
     logic [4:0] x;

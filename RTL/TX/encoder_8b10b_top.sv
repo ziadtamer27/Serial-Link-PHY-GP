@@ -1,5 +1,4 @@
 module encoder_8b10b_top #(
-    parameter bit USE_BOOLEAN_3B4B = 1'b1
 )(
     input  logic       clk,
     input  logic       rst_n,
@@ -25,14 +24,8 @@ module encoder_8b10b_top #(
     assign if3.in_data  = in_data;
     assign if3.in_is_k  = in_is_k;
     assign if3.rd_mid   = if5.rd_mid;
-
-    generate
-        if (USE_BOOLEAN_3B4B) begin : GEN_BOOL
-            encoder_3b4b_boolean u_3b4b(if3);
-        end else begin : GEN_LUT
-            encoder_3b4b_lut u_3b4b(if3);
-        end
-    endgenerate
+    encoder_3b4b_boolean u_3b4b(if3);
+    
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
