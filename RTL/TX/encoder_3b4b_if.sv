@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 interface encoder_3b4b_if;
     logic       in_valid;
     logic [7:0] in_data;     // complete byte, for alternate .7 selection

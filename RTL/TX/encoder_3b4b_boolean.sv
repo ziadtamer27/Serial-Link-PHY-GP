@@ -54,7 +54,7 @@ module encoder_3b4b_boolean (encoder_3b4b_if.DUT sif);
 
     assign selected4 = base4 ^ (alt7 ? 4'b1001 : 4'b0000)
                              ^ {4{flip_k28}};
-    assign sif.invalid_symbol = sif.in_valid && !valid_symbol;
+    assign sif.invalid_k = sif.in_valid && !valid_symbol;
     assign sif.out_valid = sif.in_valid && valid_symbol;
     assign sif.code4 = valid_symbol ? selected4 : 4'b0000;
 
