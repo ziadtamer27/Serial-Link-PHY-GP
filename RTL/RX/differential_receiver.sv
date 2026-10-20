@@ -1,4 +1,4 @@
-module diff_reciever(
+module diff_receiver(
     input real D_plus,
     input real D_minus,
     
