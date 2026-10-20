@@ -186,7 +186,6 @@ module usb_8b10b_decoder (
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             running_disparity <= 1'b0;
-            rd_known          <= 1'b0;
             rd_known          <= 1'b0; // if == 1 then it means the running disparity is trustworthy
             valid_out         <= 1'b0;
             data_out          <= 8'h00;
