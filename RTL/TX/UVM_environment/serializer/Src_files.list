@@ -1,0 +1,26 @@
+// Interfaces and Configurations
+ser_if.sv
+serializar.sv
+ser_config.sv
+
+// Assertions
+ser_assertions.sv
+
+// Sequence Items, Sequences, and Sequencer
+ser_seq_item.sv
+ser_reset_sequence.sv
+ser_main_sequence.sv
+ser_directed_sequence.sv
+ser_sequencer.sv
+
+// Agent & Environment Components
+ser_driver.sv
+ser_monitor.sv
+ser_scoreboard.sv
+ser_coverage.sv
+ser_agent.sv
+ser_env.sv
+
+// Tests and Top Level
+ser_test.sv
+top.sv
