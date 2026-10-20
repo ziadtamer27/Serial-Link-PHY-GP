@@ -4,7 +4,7 @@ module serializer (
     input  logic [9:0] parallel_data,
     output logic       serial_out
 );
-
+    //ahmed edited
     logic [9:0] shift_reg;
     logic [3:0] count;
 
