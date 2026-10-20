@@ -1,11 +1,7 @@
 `timescale 1ns/1ps
-
-// Simple decoder-only testbench. No external vector file is needed.
-// Run: vsim -c -do run_decoder_simple.do
-// Symbols below use the specification's abcdei_fghj order.
-module tb_usb_8b10b_decoder_simple;
+module tb_usb_8b10b_decoder;
     logic clk = 1'b0;
-    always #5 clk = ~clk; // 10 ns test clock; not a hardware timing test.
+    always #5 clk = ~clk; 
 
     logic rst_n = 1'b1;
     logic valid_in = 1'b0;
@@ -30,7 +26,6 @@ module tb_usb_8b10b_decoder_simple;
         .decode_error(decode_error), .disparity_error(disparity_error)
     );
 
-    // Print the same friendly text to Questa and to a plain text file.
     task automatic say(input string message);
         $display("%s", message);
         $fdisplay(transcript_file, "%s", message);
@@ -53,8 +48,6 @@ module tb_usb_8b10b_decoder_simple;
         return "X/Z (invalid stored polarity)";
     endfunction
 
-    // Supply expected values by hand. This task does not decode the input.
-    // Defaults describe an ordinary, error-free data symbol with known RD-.
     task automatic run_case(
         input string name,
         input string explanation,
