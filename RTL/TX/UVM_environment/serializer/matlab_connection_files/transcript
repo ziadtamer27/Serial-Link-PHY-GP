@@ -1,0 +1,103 @@
+# vsim -c tb -sv_lib matlab_bridge -do "run.do" 
+# Start time: 19:48:25 on Oct 22,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.tb(fast)
+# Loading .\matlab_bridge.dll
+# do run.do
+# ==========================================================
+# [TB] STARTING SYSTEMVERILOG <-> MATLAB DPI-C CO-SIMULATION
+# ==========================================================
+# 
+# --- [BIT 0] in_sig = 0 => out_sig = 1 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (1)
+# [C-DPI] Initializing MATLAB Engine...
+# [C-DPI] MATLAB Engine connected and set to VISIBLE.
+# [C-DPI] Passing bit value '1' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.400 V, TX- = 1.000 V, Vdiff = 0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] TX- = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] Vdiff = 0.400 V (Expected: 0.400 V)
+# 
+# --- [BIT 1] in_sig = 1 => out_sig = 0 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (0)
+# [C-DPI] Passing bit value '0' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.000 V, TX- = 1.400 V, Vdiff = -0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] TX- = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] Vdiff = -0.400 V (Expected: -0.400 V)
+# 
+# --- [BIT 2] in_sig = 0 => out_sig = 1 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (1)
+# [C-DPI] Passing bit value '1' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.400 V, TX- = 1.000 V, Vdiff = 0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] TX- = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] Vdiff = 0.400 V (Expected: 0.400 V)
+# 
+# --- [BIT 3] in_sig = 0 => out_sig = 1 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (1)
+# [C-DPI] Passing bit value '1' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.400 V, TX- = 1.000 V, Vdiff = 0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] TX- = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] Vdiff = 0.400 V (Expected: 0.400 V)
+# 
+# --- [BIT 4] in_sig = 1 => out_sig = 0 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (0)
+# [C-DPI] Passing bit value '0' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.000 V, TX- = 1.400 V, Vdiff = -0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] TX- = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] Vdiff = -0.400 V (Expected: -0.400 V)
+# 
+# --- [BIT 5] in_sig = 1 => out_sig = 0 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (0)
+# [C-DPI] Passing bit value '0' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.000 V, TX- = 1.400 V, Vdiff = -0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] TX- = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] Vdiff = -0.400 V (Expected: -0.400 V)
+# 
+# --- [BIT 6] in_sig = 0 => out_sig = 1 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (1)
+# [C-DPI] Passing bit value '1' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.400 V, TX- = 1.000 V, Vdiff = 0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] TX- = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] Vdiff = 0.400 V (Expected: 0.400 V)
+# 
+# --- [BIT 7] in_sig = 1 => out_sig = 0 ---
+# [SV-ASSERTION PASSED] Digital: NOT gate output is correct (0)
+# [C-DPI] Passing bit value '0' from SystemVerilog to MATLAB...
+# [C-DPI] Received from MATLAB: TX+ = 1.000 V, TX- = 1.400 V, Vdiff = -0.400 V
+# [SV-ASSERTION PASSED] TX+ = 1.000 V (Expected: 1.000 V)
+# [SV-ASSERTION PASSED] TX- = 1.400 V (Expected: 1.400 V)
+# [SV-ASSERTION PASSED] Vdiff = -0.400 V (Expected: -0.400 V)
+# 
+# [TB] Finalizing co-simulation...
+# [C-DPI] Simulation completed! Keeping MATLAB open so you can view and interact with the plots.
+# 
+# ==========================================================
+#    ALL 8 BITS TESTED & ALL ASSERTIONS PASSED!             
+#    MATLAB WINDOW REMAINS OPEN WITH LIVE WAVEFORM PLOTS!   
+# ==========================================================
+# 
+# ** Note: $finish    : tb.sv(98)
+#    Time: 80 ns  Iteration: 0  Instance: /tb
+# End time: 19:50:17 on Oct 22,2026, Elapsed time: 0:01:52
+# Errors: 0, Warnings: 0

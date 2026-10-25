@@ -1,0 +1,155 @@
+# do run.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+# Start time: 16:36:42 on Oct 25,2026
+# vlog "+define+SIM" -f Src_files.list "+cover=bcefst" 
+# -- Compiling package matlab_dpi_pkg
+# -- Compiling interface ser_if
+# -- Compiling module serializer
+# -- Compiling package ser_config
+# -- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
+# ** Note: (vlog-2286) ser_config.sv(3): Using implicit +incdir+A:/programs/questa/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
+# -- Compiling module ser_assertions
+# -- Compiling package ser_seq_item
+# -- Compiling package ser_reset_sequence
+# -- Importing package ser_seq_item
+# -- Compiling package ser_main_sequence
+# -- Compiling package ser_directed_sequence
+# -- Compiling package ser_sequencer
+# -- Compiling package ser_driver
+# -- Importing package ser_config
+# -- Compiling package ser_monitor
+# -- Compiling package ser_scoreboard
+# -- Compiling package ser_coverage
+# -- Compiling package ser_agent
+# -- Importing package ser_driver
+# -- Importing package ser_sequencer
+# -- Importing package ser_monitor
+# -- Compiling package ser_env
+# -- Importing package ser_agent
+# -- Importing package ser_scoreboard
+# -- Importing package ser_coverage
+# -- Compiling package ser_test
+# -- Importing package ser_env
+# -- Importing package ser_main_sequence
+# -- Importing package ser_directed_sequence
+# -- Importing package ser_reset_sequence
+# -- Compiling package ser_matlab_dpi_test
+# -- Importing package ser_test
+# -- Importing package matlab_dpi_pkg
+# -- Compiling package top_sv_unit
+# -- Importing package ser_matlab_dpi_test
+# -- Compiling module top
+# 
+# Top level modules:
+# 	top
+# End time: 16:36:43 on Oct 25,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.top -classdebug -uvmcontrol=all -coverage -sv_lib matlab_dpi/matlab_func_dpi "+UVM_TESTNAME=ser_matlab_dpi_test" 
+# Start time: 16:36:43 on Oct 25,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.matlab_dpi_pkg(fast)
+# Loading work.ser_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.ser_seq_item(fast)
+# Loading work.ser_reset_sequence(fast)
+# Loading work.ser_directed_sequence(fast)
+# Loading work.ser_main_sequence(fast)
+# Loading work.ser_coverage(fast)
+# Loading work.ser_scoreboard(fast)
+# Loading work.ser_monitor(fast)
+# Loading work.ser_sequencer(fast)
+# Loading work.ser_config(fast)
+# Loading work.ser_driver(fast)
+# Loading work.ser_agent(fast)
+# Loading work.ser_env(fast)
+# Loading work.ser_test(fast)
+# Loading work.ser_matlab_dpi_test(fast)
+# Loading work.top_sv_unit(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.top(fast)
+# Loading work.ser_if(fast__2)
+# Loading work.serializer(fast)
+# Loading work.ser_assertions(fast)
+# Loading .\matlab_dpi/matlab_func_dpi.dll
+# Loading A:/programs/questa/uvm-1.1d\win64\uvm_dpi.dll
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(all)
+# UVM_INFO @ 0: reporter [RNTST] Running test ser_matlab_dpi_test...
+# UVM_INFO ser_matlab_dpi_test.sv(27) @ 0: uvm_test_top [UVM_MATLAB_DPI] ==================================================================
+# UVM_INFO ser_matlab_dpi_test.sv(28) @ 0: uvm_test_top [UVM_MATLAB_DPI] [DPI-C TEST] Testing UVM <--> MATLAB connection using DPI-C...
+# UVM_INFO ser_matlab_dpi_test.sv(29) @ 0: uvm_test_top [UVM_MATLAB_DPI] [DPI-C TEST] Calling MATLAB function matlab_func(a=20, b=30)...
+# UVM_INFO ser_matlab_dpi_test.sv(35) @ 0: uvm_test_top [UVM_MATLAB_DPI] [DPI-C TEST] Result returned from MATLAB: 100 (Expected: 100)
+# UVM_INFO ser_matlab_dpi_test.sv(38) @ 0: uvm_test_top [UVM_MATLAB_DPI] [DPI-C TEST] >>> SUCCESS: MATLAB and UVM are connected and communicating via DPI-C! <<<
+# UVM_INFO ser_matlab_dpi_test.sv(42) @ 0: uvm_test_top [UVM_MATLAB_DPI] ==================================================================
+# UVM_INFO ser_test.sv(45) @ 0: uvm_test_top [reset_sequence] reset sequence started
+# **************************************************************************
+# * Questa UVM Transaction Recording Turned ON.                            *
+# * recording_detail has been set.                                         *
+# *  To turn off, set 'recording_detail' to off:                           *
+# * uvm_config_db#(int)            ::set(null, "", "recording_detail", 0); *
+# * uvm_config_db#(uvm_bitstream_t)::set(null, "", "recording_detail", 0); *
+# **************************************************************************
+# UVM_INFO ser_reset_sequence.sv(20) @ 0: uvm_test_top.env.agent.sequencer@@reset_seq [ser_reset_sequence] Starting serializer reset sequence
+# UVM_INFO ser_reset_sequence.sv(31) @ 15: uvm_test_top.env.agent.sequencer@@reset_seq [ser_reset_sequence] Serializer reset sequence completed
+# UVM_INFO ser_test.sv(48) @ 15: uvm_test_top [directed_sequence] directed sequence started
+# UVM_INFO ser_directed_sequence.sv(31) @ 15: uvm_test_top.env.agent.sequencer@@directed_seq [ser_directed_sequence] Starting directed tests
+# UVM_INFO ser_directed_sequence.sv(39) @ 315: uvm_test_top.env.agent.sequencer@@directed_seq [ser_directed_sequence] Directed tests completed
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 345: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   16
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [UVM_MATLAB_DPI]     6
+# [directed_sequence]     1
+# [reset_sequence]     1
+# [ser_directed_sequence]     2
+# [ser_reset_sequence]     2
+# ** Note: $finish    : A:/programs/questa/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 345 ns  Iteration: 54  Instance: /top
+# End time: 16:36:56 on Oct 25,2026, Elapsed time: 0:00:13
+# Errors: 0, Warnings: 0

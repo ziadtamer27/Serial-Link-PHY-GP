@@ -1,3 +1,6 @@
+// MATLAB DPI-C Package
+matlab_dpi/matlab_dpi_pkg.sv
+
 // Interfaces and Configurations
 ser_if.sv
 serializar.sv
@@ -23,4 +26,5 @@ ser_env.sv
 
 // Tests and Top Level
 ser_test.sv
+ser_matlab_dpi_test.sv
 top.sv

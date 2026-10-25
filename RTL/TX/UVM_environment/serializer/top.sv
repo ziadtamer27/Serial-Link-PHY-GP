@@ -1,4 +1,5 @@
 import ser_test::*;
+import ser_matlab_dpi_test::*;
 import uvm_pkg::*;
 `include "uvm_macros.svh"
 module top();

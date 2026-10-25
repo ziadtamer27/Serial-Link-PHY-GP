@@ -1,0 +1,4 @@
+EXPORTS
+matlab_func
+matlab_func_initialize
+matlab_func_terminate

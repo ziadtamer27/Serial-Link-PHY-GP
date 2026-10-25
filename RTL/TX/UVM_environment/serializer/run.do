@@ -1,7 +1,7 @@
 vlib work
 vlog +define+SIM -f Src_files.list +cover=bcefst
 
-vsim -voptargs=+acc work.top -classdebug -uvmcontrol=all -cover
+vsim -voptargs=+acc work.top -classdebug -uvmcontrol=all -cover -sv_lib matlab_dpi/matlab_func_dpi +UVM_TESTNAME=ser_matlab_dpi_test
 
 
 add wave -position insertpoint sim:/top/clk

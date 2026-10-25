@@ -1,0 +1,4 @@
+libmatlab_func_dpi.dll
+matlab_func		matlab_func
+matlab_func_initialize		matlab_func_initialize
+matlab_func_terminate		matlab_func_terminate
