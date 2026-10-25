@@ -20,10 +20,12 @@ module top();
     );
 
     bind serializer ser_assertions ser_assertions_inst (
-    .clk          (ser_if_inst.clk),
-    .rst_n        (ser_if_inst.rst_n),
-    .parallel_data(ser_if_inst.parallel_data),
-    .serial_out   (ser_if_inst.serial_out)
+    .clk           (clk),
+    .rst_n         (rst_n),
+    .parallel_data (parallel_data),
+    .serial_out    (serial_out),
+    .shift_reg     (shift_reg),
+    .count         (count)
     );
 
     initial begin

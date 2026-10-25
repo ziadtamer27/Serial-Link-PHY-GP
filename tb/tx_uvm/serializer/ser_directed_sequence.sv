@@ -28,15 +28,20 @@ package ser_directed_sequence;
         endtask
 
         virtual task body();
-            `uvm_info(get_type_name(), "Starting directed tests", UVM_LOW)
 
+            `uvm_info(get_type_name(),"Starting directed tests", UVM_LOW)
             send_word(10'b0101010101);
-            //`uvm_info(get_type_name(), "Starting second tests", UVM_LOW)
+            //`uvm_info(get_type_name(),"Starting second test", UVM_LOW)
             send_word(10'b1100101011);
-            //`uvm_info(get_type_name(), "Starting third tests", UVM_LOW)
+            //`uvm_info(get_type_name(),"Starting third test", UVM_LOW)
             send_word(10'b0000000000);
+            
+            send_word(10'b0000000001);
+            send_word(10'b1000000000);
 
-            `uvm_info(get_type_name(), "Directed tests completed", UVM_LOW)
+            send_word(10'b1111111111);
+            send_word(10'b0000000000);
+            //`uvm_info(get_type_name(),"Directed tests completed", UVM_LOW)
 
         endtask
 

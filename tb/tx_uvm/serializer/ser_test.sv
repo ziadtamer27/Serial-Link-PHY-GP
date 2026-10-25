@@ -48,8 +48,8 @@ class ser_test extends uvm_test;
         `uvm_info("directed_sequence","directed sequence started",UVM_MEDIUM)
         directed_seq.start(env.agent.sequencer);
 
-        //`uvm_info("main_sequence","main sequence started",UVM_MEDIUM)
-        //main_seq.start(env.agent.sequencer);
+        `uvm_info("main_sequence","main sequence started",UVM_MEDIUM)
+        main_seq.start(env.agent.sequencer);
 
         #30;
 
