@@ -12,10 +12,28 @@ package ser_coverage;
 
         ser_seq_item item;
 
-        // Coverage implementation will be added later
+        covergroup ser_cg;
+            cp_reset : coverpoint item.rst_n {
+                bins reset  = {0};
+                bins active = {1};
+            }
+            cp_parallel_data : coverpoint item.parallel_data {
+                bins all_zero = {10'b0000000000};
+                bins all_one  = {10'b1111111111};
+                bins alternating_01 = {10'b0101010101};
+                bins alternating_10 = {10'b1010101010};
+                bins other = default;
+            }
+            cp_serial_out : coverpoint item.serial_out {
+                bins zero = {0};
+                bins one  = {1};
+            }
+            data_serial_cross : cross cp_parallel_data, cp_serial_out;
+        endgroup
 
         function new(string name="ser_coverage",uvm_component parent=null);
             super.new(name,parent);
+            ser_cg = new();
         endfunction
 
         function void build_phase(uvm_phase phase);
@@ -30,9 +48,20 @@ package ser_coverage;
         endfunction
 
         task run_phase(uvm_phase phase);
-            // Coverage sampling will be added later
+            super.run_phase(phase);
+            forever begin
+                item_fifo.get(item);
+                ser_cg.sample();
+            end
         endtask
 
-    endclass
+        function void report_phase(uvm_phase phase);
+            super.report_phase(phase);
+            `uvm_info("SER_COVERAGE",
+                $sformatf("Functional coverage = %0.2f%%",
+                          ser_cg.get_coverage()),
+                UVM_MEDIUM)
+        endfunction
 
+    endclass
 endpackage
