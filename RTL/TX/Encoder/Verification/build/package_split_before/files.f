@@ -1,0 +1,9 @@
+../RTL/encoder_5b6b_if.sv
+../RTL/encoder_3b4b_if.sv
+../RTL/encoder_5b6b_boolean.sv
+../RTL/encoder_3b4b_boolean.sv
+../RTL/encoder_8b10b_top.sv
+encoder_if.sv
+pack.sv
+encoder_assertions.sv
+encoder_top.sv

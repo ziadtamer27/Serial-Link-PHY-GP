@@ -1,0 +1,65 @@
+[
+  {
+    "test": "encoder_smoke_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_smoke_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_smoke_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_exhaustive_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_exhaustive_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_exhaustive_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_alternate7_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_alternate7_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_alternate7_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_disparity_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_disparity_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_disparity_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_invalid_k_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_invalid_k_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_invalid_k_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_idle_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_idle_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_idle_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_reset_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_reset_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_reset_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_random_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_random_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_random_test_seed1.ucdb"
+  },
+  {
+    "test": "encoder_regression_test",
+    "seed": 1,
+    "status": "PASS",
+    "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_regression_test_seed1.log",
+    "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_regression_test_seed1.ucdb"
+  }
+]

@@ -1,0 +1,13 @@
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+Start time: 23:06:29 on Oct 27,2026
+vlog -modelsimini build/modelsim.ini -work work -sv -timescale 1ns/1ps -L mtiUvm "+incdir=D:\Apps\qsim_2021_1\verilog_src\uvm-1.1d\src" "+incdir=." "+incdir=tests" "+cover=bcesft" -l D:\Documents\Serial-Link-PHY-GP\RTL\TX\Encoder\Verification\build\logs\compile.log ../RTL/encoder_5b6b_if.sv ../RTL/encoder_3b4b_if.sv ../RTL/encoder_5b6b_boolean.sv ../RTL/encoder_3b4b_boolean.sv ../RTL/encoder_8b10b_top.sv 
+-- Compiling interface encoder_5b6b_if
+-- Compiling interface encoder_3b4b_if
+-- Compiling module encoder_5b6b_boolean
+-- Compiling module encoder_3b4b_boolean
+-- Compiling module encoder_8b10b_top
+
+Top level modules:
+	encoder_8b10b_top
+End time: 23:06:29 on Oct 27,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

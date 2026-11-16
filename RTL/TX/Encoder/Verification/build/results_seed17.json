@@ -1,0 +1,7 @@
+{
+  "test": "encoder_regression_test",
+  "seed": 17,
+  "status": "PASS",
+  "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_regression_test_seed17.log",
+  "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_regression_test_seed17.ucdb"
+}

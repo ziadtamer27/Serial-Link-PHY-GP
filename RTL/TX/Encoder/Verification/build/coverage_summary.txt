@@ -1,0 +1,15 @@
+Coverage Report Totals BY INSTANCES: Number of Instances 11
+
+    Enabled Coverage              Bins      Hits    Misses    Weight  Coverage
+    ----------------              ----      ----    ------    ------  --------
+    Assertions                      13        13         0         1   100.00%
+    Branches                        20        20         0         1   100.00%
+    Covergroups                      1        na        na         1   100.00%
+        Coverpoints/Crosses         21        na        na         1        na
+            Covergroup Bins       1670      1670         0         1   100.00%
+    Directives                       6         6         0         1   100.00%
+    Expressions                     90        90         0         1   100.00%
+    Statements                      45        45         0         1   100.00%
+    Toggles                        246       244         2         1    99.18%
+Total coverage (filtered view): 99.88%
+
