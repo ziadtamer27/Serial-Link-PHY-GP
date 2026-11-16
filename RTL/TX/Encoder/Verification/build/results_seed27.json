@@ -1,0 +1,7 @@
+{
+  "test": "encoder_exhaustive_test",
+  "seed": 27,
+  "status": "PASS",
+  "log": "D:\\Documents\\Serial-Link-PHY-GP\\RTL\\TX\\Encoder\\Verification\\build\\logs\\encoder_exhaustive_test_seed27.log",
+  "coverage": "D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_exhaustive_test_seed27.ucdb"
+}

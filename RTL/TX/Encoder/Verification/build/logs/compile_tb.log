@@ -1,0 +1,17 @@
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+Start time: 23:06:29 on Oct 27,2026
+vlog -modelsimini build/modelsim.ini -work work -sv -timescale 1ns/1ps -L mtiUvm "+incdir=D:\Apps\qsim_2021_1\verilog_src\uvm-1.1d\src" "+incdir=." "+incdir=tests" -l D:\Documents\Serial-Link-PHY-GP\RTL\TX\Encoder\Verification\build\logs\compile_tb.log encoder_if.sv pack.sv tests/tests_pack.sv encoder_assertions.sv encoder_top.sv 
+-- Compiling interface encoder_if
+-- Compiling package pack
+-- Importing package mtiUvm.uvm_pkg (uvm-1.1d Built-in)
+** Note: (vlog-2286) pack.sv(5): Using implicit +incdir+D:/Apps/qsim_2021_1/uvm-1.1d/../verilog_src/uvm-1.1d/src from import uvm_pkg
+-- Compiling package encoder_test_pkg
+-- Importing package pack
+-- Compiling module encoder_assertions
+-- Compiling module encoder_top
+-- Importing package encoder_test_pkg
+
+Top level modules:
+	encoder_top
+End time: 23:06:29 on Oct 27,2026, Elapsed time: 0:00:00
+Errors: 0, Warnings: 0

@@ -1,0 +1,83 @@
+# vsim -c -modelsimini build/modelsim.ini -coverage -assertdebug -voptargs="+acc" -onfinish stop -L mtiUvm -sv_seed 17 work.encoder_top "+UVM_TESTNAME=encoder_regression_test" "+RANDOM_COUNT=10000" "+UVM_MAX_QUIT_COUNT=20" -l D:\Documents\Serial-Link-PHY-GP\RTL\TX\Encoder\Verification\build\logs\encoder_regression_test_seed17.log -do "do {D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_regression_test_seed17.do}" 
+# Start time: 20:48:04 on Oct 27,2026
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.encoder_if(fast)
+# Loading mtiUvm.uvm_pkg(fast)
+# Loading work.pack(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# Loading work.encoder_top(fast)
+# Loading work.encoder_if(fast__2)
+# Loading work.encoder_8b10b_top(fast)
+# Loading work.encoder_5b6b_if(fast__1)
+# Loading work.encoder_3b4b_if(fast__1)
+# Loading work.encoder_5b6b_boolean(fast)
+# Loading work.encoder_3b4b_boolean(fast)
+# Loading work.encoder_assertions(fast)
+# Loading D:/Apps/qsim_2021_1/uvm-1.1d\win64\uvm_dpi.dll
+# do {D:/Documents/Serial-Link-PHY-GP/RTL/TX/Encoder/Verification/build/encoder_regression_test_seed17.do}
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(277) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(278) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test encoder_regression_test...
+# UVM_INFO @ 0: reporter [MAXQUITSET] '+UVM_MAX_QUIT_COUNT=20' provided on the command line is being applied.
+# UVM_INFO encoder_base_test.svh(21) @ 0: uvm_test_top [TEST_START] Starting encoder_regression_test
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1267) @ 149070000: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO encoder_coverage.svh(173) @ 149070000: uvm_test_top.env.cov [ENCODER_COVERAGE] Legal combinations 536/536; illegal K combinations 488/488; reset cycles 1244; idle cycles 2128; covergroup 100.00%
+# UVM_INFO encoder_scoreboard.svh(57) @ 149070000: uvm_test_top.env.sb [ENC_SCOREBOARD] matched=14907 mismatched=0 encoded=8747 invalid=2788 idle=2128 reset=1244
+# 
+# --- UVM Report Summary ---
+# 
+# Quit count :     0 of    20
+# ** Report counts by severity
+# UVM_INFO :    8
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [ENCODER_COVERAGE]     1
+# [ENC_SCOREBOARD]     1
+# [MAXQUITSET]     1
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [TEST_START]     1
+# ** Note: $finish    : D:/Apps/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 149070 ns  Iteration: 55  Instance: /encoder_top
+# Break in Task uvm_pkg/uvm_root::run_test at D:/Apps/qsim_2021_1/win64/../verilog_src/uvm-1.1d/src/base/uvm_root.svh line 430
+# Saving coverage database on exit...
+# End time: 20:48:38 on Oct 27,2026, Elapsed time: 0:00:34
+# Errors: 0, Warnings: 0
