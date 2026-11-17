@@ -1,14 +1,14 @@
-`ifndef ALU_SEQUENCER_SV
-`define ALU_SEQUENCER_SV
+`ifndef RX_SEQUENCER_SV
+`define RX_SEQUENCER_SV
 
-package alu_sequencer_pkg;
+package rx_sequencer_pkg;
     import uvm_pkg::*;
-    import alu_transaction_pkg::*;
+    import rx_transaction_pkg::*;
     `include "uvm_macros.svh"
 
-    class alu_sequencer extends uvm_sequencer #(alu_transaction);
-        `uvm_component_utils(alu_sequencer)
-        function new(string name = "alu_sequencer", uvm_component parent = null);
+    class rx_sequencer extends uvm_sequencer #(rx_transaction); 
+        `uvm_component_utils(rx_sequencer)
+        function new(string name = "rx_sequencer", uvm_component parent = null);
             super.new(name, parent);
         endfunction
     endclass
