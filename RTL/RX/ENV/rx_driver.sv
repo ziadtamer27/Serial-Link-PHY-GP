@@ -19,10 +19,10 @@ package rx_driver_pkg;
             rx_transaction tr;
             vif = cfg.get_vif();
             forever begin
-                @(posedge vif.clk);
                 seq_item_port.get_next_item(tr);
-                vif.D_plus <= tr.D_plus;
-                vif.D_minus <= tr.D_minus;
+                @(negedge vif.clk);
+                vif.D_plus  <= tr.tx_bit ? 0.5 : -0.5;
+                vif.D_minus <= tr.tx_bit ? -0.5 : 0.5;
                 vif.rst_n <= tr.rst_n;
                 vif.Rx_Polarity <= tr.Rx_Polarity;
                 seq_item_port.item_done();

@@ -1,3 +1,6 @@
+timeunit 1ps;
+timeprecision 1fs;
+
 `ifndef RX_TOP_SV
 `define RX_TOP_SV
 
@@ -8,10 +11,7 @@
     `include "rx_if.sv"
     `include "rx_config_obj.sv"
     `include "rx_transaction.sv"
-    `include "rx_overflow_sequence.sv"
-    `include "rx_shift_sequence.sv"
-    `include "rx_corner_sequence.sv"
-    `include "rx_random_sequence.sv"
+    `include "rx_overflow_sequence.sv" ///////////////////////////
     `include "rx_sequencer.sv"
     `include "rx_driver.sv"
     `include "rx_monitor.sv"
@@ -30,7 +30,7 @@ module top;
     bit clk;
     initial begin
         clk=0;
-        forever #5 clk=~clk;
+        forever #100 clk=~clk;
     end
 
     rx_if rx_if(clk);

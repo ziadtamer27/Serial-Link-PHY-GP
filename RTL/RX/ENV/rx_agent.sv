@@ -4,7 +4,8 @@
 package rx_agent_pkg;
     import uvm_pkg::*;
     import rx_driver_pkg::*;
-    import rx_monitor_pkg::*;
+    import rx_input_monitor_pkg::*;
+    import rx_output_monitor_pkg::*;
     import rx_sequencer_pkg::*;
     import rx_transaction_pkg::*;
     import rx_config_pkg::*;
@@ -14,10 +15,12 @@ package rx_agent_pkg;
         `uvm_component_utils(rx_agent)
         rx_config cfg;
         rx_driver driver;
-        rx_monitor monitor;
+        rx_input_monitor in_mon;
+        rx_output_monitor out_mon;
         rx_sequencer sequencer;
         virtual rx_if vif;
-        uvm_analysis_port #(rx_transaction) agt_ap;
+        uvm_analysis_port #(rx_transaction) input_ap;
+        uvm_analysis_port #(rx_transaction) output_ap;
 
         function new(string name = "rx_agent", uvm_component parent = null);
             super.new(name, parent);
@@ -25,9 +28,11 @@ package rx_agent_pkg;
 
         virtual function void build_phase(uvm_phase phase);
             super.build_phase(phase);
-            agt_ap = new("agt_ap", this);
+            input_ap = new("input_ap", this);
+            output_ap = new("output_ap", this);
             cfg = rx_config::type_id::create("cfg", this);
-            monitor = rx_monitor::type_id::create("monitor", this);
+            in_mon = rx_input_monitor::type_id::create("in_mon", this);
+            out_mon = rx_output_monitor::type_id::create("out_mon", this);
             if(cfg.get_active() == UVM_ACTIVE) begin
                 driver = rx_driver::type_id::create("driver", this);
                 sequencer = rx_sequencer::type_id::create("sequencer", this);
@@ -42,12 +47,14 @@ package rx_agent_pkg;
             else begin
                 cfg.set_vif(vif);
             end
-            monitor.cfg = cfg;
+            in_mon.cfg = cfg;
+            out_mon.cfg = cfg;
             if(cfg.get_active() == UVM_ACTIVE) begin
                 driver.cfg = cfg;
                 driver.seq_item_port.connect(sequencer.seq_item_export);
             end
-            monitor.monitor_ap.connect(agt_ap);
+            in_mon.monitor_ap.connect(input_ap);
+            out_mon.monitor_ap.connect(output_ap);
         endfunction
         
     endclass
