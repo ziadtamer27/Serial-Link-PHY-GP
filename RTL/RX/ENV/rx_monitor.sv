@@ -1,21 +1,21 @@
-`ifndef ALU_MONITOR_SV
-`define ALU_MONITOR_SV
+`ifndef RX_MONITOR_SV
+`define RX_MONITOR_SV
 
-package alu_monitor_pkg;
+package rx_monitor_pkg;
     import uvm_pkg::*;
-    import alu_config_pkg::*;
-    import alu_transaction_pkg::*;
+    import rx_config_pkg::*;
+    import rx_transaction_pkg::*;
     `include "uvm_macros.svh"
 
-    class alu_monitor extends uvm_monitor;
-        `uvm_component_utils(alu_monitor)
-        alu_config cfg;
-        virtual alu_if vif;
-        alu_transaction trans;
-        uvm_analysis_port #(alu_transaction) monitor_ap;
+    class rx_monitor extends uvm_monitor;
+        `uvm_component_utils(rx_monitor)
+        rx_config cfg;
+        virtual rx_if vif;
+        rx_transaction trans;
+        uvm_analysis_port #(rx_transaction) monitor_ap;
 
 
-        function new(string name = "alu_monitor", uvm_component parent = null);
+        function new(string name = "rx_monitor", uvm_component parent = null);
             super.new(name, parent);
         endfunction
 
@@ -28,15 +28,16 @@ package alu_monitor_pkg;
             vif = cfg.get_vif();
             forever begin
                 @(negedge vif.clk);
-                trans = alu_transaction::type_id::create("trans");
-                trans.A = vif.A;
-                trans.B = vif.B;
-                trans.shift_amt = vif.shift_amt;
-                trans.AluControlout = vif.AluControlout;
-                trans.Result = vif.Result;
-                trans.overflow = vif.overflow;
-                trans.ref_Result = vif.ref_Result;
-                trans.ref_overflow = vif.ref_overflow;
+                trans = rx_transaction::type_id::create("trans");
+                trans.D_plus = vif.D_plus;
+                trans.D_minus = vif.D_minus;
+                trans.rst_n = vif.rst_n;
+                trans.Rx_Polarity = vif.Rx_Polarity;
+                trans.recovered_clk = vif.recovered_clk;
+                trans.recovered_data = vif.recovered_data;
+                trans.parallel_data = vif.parallel_data;
+                trans.symbol_valid = vif.symbol_valid;
+                trans.recovered_symbol_clk = vif.recovered_symbol_clk;
                 monitor_ap.write(trans);
             end
         endtask

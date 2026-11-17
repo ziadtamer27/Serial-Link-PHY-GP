@@ -1,24 +1,24 @@
-`ifndef ALU_ENV_SV
-`define ALU_ENV_SV
+`ifndef RX_ENV_SV
+`define RX_ENV_SV
 
-package alu_env_pkg;
+package rx_env_pkg;
 
     import uvm_pkg::*;
-    import alu_agent_pkg::*;
-    import alu_scoreboard_pkg::*;
-    import alu_coveragecollector_pkg::*;
+    import rx_agent_pkg::*;
+    import rx_scoreboard_pkg::*;
+    import rx_coveragecollector_pkg::*;
 
     `include "uvm_macros.svh"
 
-    class alu_env extends uvm_env;
+    class rx_env extends uvm_env;
 
-        `uvm_component_utils(alu_env)
+        `uvm_component_utils(rx_env)
 
-        alu_agent agent;
-        alu_scoreboard scoreboard;
-        alu_coveragecollector coveragecollector;
+        rx_agent agent;
+        rx_scoreboard scoreboard;
+        rx_coveragecollector coveragecollector;
 
-        function new(string name = "alu_env",
+        function new(string name = "rx_env",
                      uvm_component parent = null);
 
             super.new(name, parent);
@@ -28,9 +28,9 @@ package alu_env_pkg;
 
         virtual function void build_phase(uvm_phase phase);
             super.build_phase(phase);
-            agent = alu_agent::type_id::create("agent", this);
-            scoreboard = alu_scoreboard::type_id::create("scoreboard", this);
-            coveragecollector = alu_coveragecollector::type_id::create("coveragecollector", this);
+            agent = rx_agent::type_id::create("agent", this);
+            scoreboard = rx_scoreboard::type_id::create("scoreboard", this);
+            coveragecollector = rx_coveragecollector::type_id::create("coveragecollector", this);
         endfunction
 
 
