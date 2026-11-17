@@ -14,7 +14,7 @@ module symbol_detector (
 
     assign symbol_align = rst_n && !aligned &&((candidate_window == comma_plus) ||(candidate_window == comma_minus));
 
-    always_ff @(posedge recovered_clk) begin
+    always_ff @(posedge recovered_clk or negedge rst_n) begin
 
         if (!rst_n) begin
             recovered_symbol_clk <= 1'b0;

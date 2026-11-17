@@ -1,4 +1,4 @@
-module top (
+module rx_wrapper (
     input  logic       clk,
     input  real        D_plus,
     input  real        D_minus,

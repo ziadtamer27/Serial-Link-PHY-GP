@@ -15,9 +15,9 @@ module serial_to_parallel (
     // assign serial_bit = Rx_Polarity ? ~recovered_data : recovered_data;
     wire serial_bit = recovered_data ^ Rx_Polarity;
 
-    assign candidate_window = {bit_window[8:0], serial_bit};
+    assign candidate_window = {bit_window[8:0], serial_bit}; 
 
-    always_ff @(posedge recovered_clk) begin
+    always_ff @(posedge recovered_clk or negedge rst_n) begin
         if (!rst_n) begin
             bit_window    <= 10'b0;
             parallel_data <= 10'b0;
