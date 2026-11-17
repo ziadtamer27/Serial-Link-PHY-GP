@@ -38,7 +38,7 @@ function [tx_p, tx_n, v_diff, valid] = calc_diff2(bit_val, preset)
 
     % Generate smooth waveforms for plotting
     samples_per_bit = 50;
-    time_per_bit = 0.125; % 125 ps for PCIe Gen3
+    time_per_bit = 1.0; % 1 ns per bit
 
     total_samples = length(amplitude_history) * samples_per_bit;
 
@@ -114,8 +114,8 @@ function [tx_p, tx_n, v_diff, valid] = calc_diff2(bit_val, preset)
 
     legend('V_{diff}', 'Location', 'northeast');
 
-    % Pass FFE output through the channel model and plot before/after eye diagrams
-    channel_effect(t, raw_tx_p, raw_tx_n, smooth_v_diff, v_cm, samples_per_bit, time_per_bit);
+    % Pass FFE output through the channel model and plot channel waveforms & eye diagram
+    channel_effect(t, raw_tx_p, raw_tx_n, v_cm, samples_per_bit, time_per_bit);
 
     drawnow;
     shg;
