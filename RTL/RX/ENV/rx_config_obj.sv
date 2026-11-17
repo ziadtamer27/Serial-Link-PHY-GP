@@ -1,28 +1,27 @@
-`ifndef ALU_CONFIG_SV
-`define ALU_CONFIG_SV
+`ifndef RX_CONFIG_SV
+`define RX_CONFIG_SV
 
-package alu_config_pkg;
+package rx_config_pkg;
 
     import uvm_pkg::*;
     `include "uvm_macros.svh"
 
-    class alu_config extends uvm_object;
+    class rx_config extends uvm_object;
 
-        `uvm_object_utils(alu_config)
-        virtual alu_if vif;
+        `uvm_object_utils(rx_config)
+        virtual rx_if vif;
         uvm_active_passive_enum is_active;
 
-
-        function new(string name = "alu_config");
+        function new(string name = "rx_config");
             super.new(name);
             is_active = UVM_ACTIVE;
         endfunction
 
-        function void set_vif(virtual alu_if vif);
+        function void set_vif(virtual rx_if vif);
             this.vif = vif;
         endfunction
 
-        function virtual alu_if get_vif();
+        function virtual rx_if get_vif();
             return vif;
         endfunction
 
