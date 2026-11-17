@@ -1,21 +1,21 @@
-`ifndef ALU_SCOREBOARD_SV    
-`define ALU_SCOREBOARD_SV
-package alu_scoreboard_pkg;
+`ifndef RX_SCOREBOARD_SV    
+`define RX_SCOREBOARD_SV
+package rx_scoreboard_pkg;
 import uvm_pkg::*;
-import alu_transaction_pkg::*;
+import rx_transaction_pkg::*;
 `include "uvm_macros.svh"
 
-class alu_scoreboard extends uvm_scoreboard;
-    `uvm_component_utils(alu_scoreboard)
+class rx_scoreboard extends uvm_scoreboard;
+    `uvm_component_utils(rx_scoreboard)
 
-    alu_transaction trans;
-    uvm_analysis_export #(alu_transaction) sb_export;
-    uvm_tlm_analysis_fifo #(alu_transaction) sb_fifo;
+    rx_transaction trans;
+    uvm_analysis_export #(rx_transaction) sb_export;
+    uvm_tlm_analysis_fifo #(rx_transaction) sb_fifo;
 
     int correct_counter = 0;
     int error_counter   = 0;
 
-    function new(string name = "alu_scoreboard",uvm_component parent = null);
+    function new(string name = "rx_scoreboard",uvm_component parent = null);
         super.new(name,parent);
     endfunction
 
@@ -54,7 +54,7 @@ class alu_scoreboard extends uvm_scoreboard;
 
     function void report_phase(uvm_phase phase);
         super.report_phase(phase);
-        $display("Final Counters for alu %d,%d", correct_counter, error_counter);
+        $display("Final Counters for rx %d,%d", correct_counter, error_counter);
     endfunction
 
 
