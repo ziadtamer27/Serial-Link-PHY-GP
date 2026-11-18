@@ -121,7 +121,7 @@ package rx_scoreboard_pkg;
 
                 interval = current_time - last_valid_time;
 
-                if (interval < (10.0*200.0 - 1.0) || interval > (10.0*200.0 + 1.0)) begin
+                if (interval < (10.0*200.0) || interval > (10.0*200.0)) begin
                     error_counter++;
                     `uvm_error("RX_SB", $sformatf( "Symbol interval = %0.3f ps, expected = %0.3f ps", interval, 10.0*200.0 ) )
                 end
