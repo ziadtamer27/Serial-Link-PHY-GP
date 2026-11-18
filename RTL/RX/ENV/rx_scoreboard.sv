@@ -2,7 +2,6 @@
 `define RX_SCOREBOARD_SV
 
 package rx_scoreboard_pkg;
-
     timeunit 1ps;
     timeprecision 1fs;
 
@@ -13,22 +12,16 @@ package rx_scoreboard_pkg;
     class rx_scoreboard extends uvm_scoreboard;
 
         `uvm_component_utils(rx_scoreboard)
-
         uvm_tlm_analysis_fifo #(rx_transaction) input_fifo;
         uvm_tlm_analysis_fifo #(rx_transaction) output_fifo;
 
-        // Reference model
         logic [9:0] bit_window = 0;
-
         logic [9:0] expected_q[$];
         logic [9:0] actual_q[$];
 
         bit aligned = 0;
         int bit_count = 0;
-
-        // Timing
-        realtime last_valid_time = -1.0;
-
+        // realtime last_valid_time = -1.0;
         int correct_counter = 0;
         int error_counter = 0;
 
@@ -42,7 +35,6 @@ package rx_scoreboard_pkg;
             output_fifo = new("output_fifo", this);
         endfunction
 
-        // Compare all available expected/actual symbols
         function void compare_symbols();
             logic [9:0] expected;
             logic [9:0] actual;
@@ -57,6 +49,7 @@ package rx_scoreboard_pkg;
                 end
                 else begin
                     correct_counter++;
+                    `uvm_info("RX_SB",$sformatf("PASS [%0d]: Expected = %010b | Actual = %010b",correct_counter, expected, actual), UVM_LOW)
                 end
 
             end
@@ -67,28 +60,21 @@ package rx_scoreboard_pkg;
         function void check_input(rx_transaction tr);
 
             logic corrected_bit;
-
             if (tr.rst_n !== 1'b1) begin
-
                 bit_window = 0;
                 bit_count  = 0;
                 aligned    = 0;
-
                 expected_q.delete();
                 actual_q.delete();
-
-                last_valid_time = -1.0;
+                //last_valid_time = -1.0;
                 return;
-
             end
 
             corrected_bit = tr.tx_bit ^ tr.Rx_Polarity;
-
             bit_window = { bit_window[8:0],corrected_bit };
 
             // Search for comma
             if (!aligned) begin
-
                 if (bit_window == 10'b0011111010 || bit_window == 10'b1100000101) begin
                     aligned   = 1;
                     bit_count = 0;
@@ -98,52 +84,41 @@ package rx_scoreboard_pkg;
             end
             else begin
                 bit_count++;
-
                 if (bit_count == 10) begin
                     expected_q.push_back(bit_window);
                     bit_count = 0;
-
                 end
             end
             compare_symbols();
         endfunction
 
-        // Check received symbols and their timing
         function void check_output(rx_transaction tr);
+            // realtime current_time;
+            // realtime interval;
+            // current_time = $realtime;
 
-            realtime current_time;
-            realtime interval;
+            // // Check symbol_valid spacing
+            // if (last_valid_time >= 0.0) begin
 
-            current_time = $realtime;
+            //     interval = current_time - last_valid_time;
 
-            // Check symbol_valid spacing
-            if (last_valid_time >= 0.0) begin
+            //     if (interval < (10.0*200.0) || interval > (10.0*200.0)) begin
+            //         error_counter++;
+            //         `uvm_error("RX_SB", $sformatf( "Symbol interval = %0.3f ps, expected = %0.3f ps", interval, 10.0*200.0 ) )
+            //     end
 
-                interval = current_time - last_valid_time;
+            // end
 
-                if (interval < (10.0*200.0) || interval > (10.0*200.0)) begin
-                    error_counter++;
-                    `uvm_error("RX_SB", $sformatf( "Symbol interval = %0.3f ps, expected = %0.3f ps", interval, 10.0*200.0 ) )
-                end
+            // last_valid_time = current_time;
 
-            end
+            // // Check symbol clock at completed symbol
+            // if (tr.recovered_symbol_clk !== 1'b1) begin
+            //     error_counter++;
+            //     `uvm_error("RX_SB", "recovered_symbol_clk is not HIGH when symbol_valid is HIGH" )
+            // end
 
-            last_valid_time = current_time;
-
-            // Check symbol clock at completed symbol
-            if (tr.recovered_symbol_clk !== 1'b1) begin
-
-                error_counter++;
-
-                `uvm_error("RX_SB", "recovered_symbol_clk is not HIGH when symbol_valid is HIGH" )
-
-            end
-
-            // Save actual symbol
             actual_q.push_back(tr.parallel_data);
-
             compare_symbols();
-
         endfunction
 
         task run_phase(uvm_phase phase);

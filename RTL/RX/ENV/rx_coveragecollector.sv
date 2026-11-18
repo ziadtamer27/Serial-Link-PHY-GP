@@ -12,12 +12,11 @@ class rx_coveragecollector extends uvm_component;
     uvm_tlm_analysis_fifo #(rx_transaction) cvr_fifo;
     covergroup cvr_grp;
         cp_symbol : coverpoint trans.parallel_data {
-            bins comma_minus = {10'b0011111010};   // K28.5 RD-
-            bins comma_plus  = {10'b1100000101};   // K28.5 RD+
+            bins comma_minus = {10'b0011111010};   
+            bins comma_plus  = {10'b1100000101};   
             bins data_symbol = default;
         }
 
-        // valid 8b10b symbols have 4, 5 or 6 ones
         cp_ones : coverpoint $countones(trans.parallel_data) {
             bins four_ones = {4};
             bins five_ones = {5};
