@@ -15,6 +15,31 @@ interface rx_if(input clk);
     logic [9:0] parallel_data;
     logic       symbol_valid;
     logic       recovered_symbol_clk;
+
+    // Drive each bit at the reference-clock falling edge
+    clocking drive_cb @(negedge clk);
+        default output #0;
+        output D_plus, D_minus;
+        output rst_n, Rx_Polarity;
+    endclocking
+
+    // Sample the incoming bit at its nominal center
+    clocking input_cb @(posedge clk);
+        default input #1step;
+        input D_plus, D_minus;
+        input rst_n, Rx_Polarity;
+    endclocking
+
+    // Sample DUT outputs after the recovered-clock rising edge
+    clocking output_cb @(negedge recovered_clk);
+        default input #1step;
+        input rst_n;
+        input recovered_data;
+        input parallel_data;
+        input symbol_valid;
+        input recovered_symbol_clk;
+    endclocking
+
 endinterface
 
 `endif

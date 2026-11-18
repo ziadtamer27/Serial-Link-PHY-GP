@@ -25,15 +25,23 @@ package rx_input_monitor_pkg;
         endfunction
 
         task run_phase(uvm_phase phase);
+
             vif = cfg.get_vif();
+
             forever begin
-                @(posedge vif.clk);
+
+                @(vif.input_cb);
+
                 trans = rx_transaction::type_id::create("trans");
-                trans.D_plus = vif.D_plus;
-                trans.D_minus = vif.D_minus;
-                trans.rst_n = vif.rst_n;
-                trans.Rx_Polarity = vif.Rx_Polarity;
+
+                trans.tx_bit =
+                    (vif.input_cb.D_plus > vif.input_cb.D_minus);
+
+                trans.rst_n       = vif.input_cb.rst_n;
+                trans.Rx_Polarity = vif.input_cb.Rx_Polarity;
+
                 monitor_ap.write(trans);
+
             end
         endtask
     endclass

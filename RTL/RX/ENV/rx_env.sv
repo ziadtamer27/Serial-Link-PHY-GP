@@ -36,8 +36,9 @@ package rx_env_pkg;
 
         virtual function void connect_phase(uvm_phase phase);
             super.connect_phase(phase);
-            agent.agt_ap.connect(scoreboard.sb_export);
             agent.agt_ap.connect(coveragecollector.cvr_export);
+            agent.input_ap.connect(scoreboard.input_fifo.analysis_export);
+            agent.output_ap.connect(scoreboard.output_fifo.analysis_export);
         endfunction
     endclass
 endpackage

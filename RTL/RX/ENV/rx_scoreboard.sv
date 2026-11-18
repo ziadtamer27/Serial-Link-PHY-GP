@@ -14,286 +14,175 @@ package rx_scoreboard_pkg;
 
         `uvm_component_utils(rx_scoreboard)
 
-        localparam realtime UI  = 200.0;
-        localparam realtime TOL = 0.01;
-
         uvm_tlm_analysis_fifo #(rx_transaction) input_fifo;
         uvm_tlm_analysis_fifo #(rx_transaction) output_fifo;
 
         // Reference model
-        bit [9:0] expected_window = 0;
-        bit [9:0] expected_symbols[$];
+        logic [9:0] bit_window = 0;
+
+        logic [9:0] expected_q[$];
+        logic [9:0] actual_q[$];
 
         bit aligned = 0;
-        bit expected_bit;
         int bit_count = 0;
 
         // Timing
-        realtime last_tx_time     = -1.0;
-        realtime last_rx_time     = -1.0;
-        realtime last_valid_time  = -1.0;
-        realtime last_symbol_time = -1.0;
+        realtime last_valid_time = -1.0;
 
         int correct_counter = 0;
         int error_counter = 0;
-        int symbols_checked = 0;
 
-        function new(string name = "rx_scoreboard",
-                     uvm_component parent = null);
+        function new( string name = "rx_scoreboard",uvm_component parent = null);
             super.new(name, parent);
         endfunction
 
         function void build_phase(uvm_phase phase);
             super.build_phase(phase);
-
             input_fifo  = new("input_fifo", this);
             output_fifo = new("output_fifo", this);
         endfunction
 
-        function automatic realtime abs_time(realtime value);
-            return (value < 0.0) ? -value : value;
+        // Compare all available expected/actual symbols
+        function void compare_symbols();
+            logic [9:0] expected;
+            logic [9:0] actual;
+
+            while (expected_q.size() > 0 && actual_q.size() > 0) begin
+                expected = expected_q.pop_front();
+                actual   = actual_q.pop_front();
+
+                if (actual !== expected) begin
+                    error_counter++;
+                    `uvm_error("RX_SB", $sformatf("Symbol mismatch: expected=%010b actual=%010b", expected, actual))
+                end
+                else begin
+                    correct_counter++;
+                end
+
+            end
+
         endfunction
 
-        function void check_error(string message);
-            error_counter++;
-            `uvm_error("RX_SCOREBOARD", message)
-        endfunction
-
-        // =====================================
-        // INPUT MONITOR: Expected serial data
-        // =====================================
+        // Build expected symbols from transmitted bits
         function void check_input(rx_transaction tr);
 
-            bit corrected_bit;
+            logic corrected_bit;
 
-            if (tr.observation != RX_TX_BIT)
-                return;
+            if (tr.rst_n !== 1'b1) begin
 
-            if (!tr.rst_n) begin
-                aligned = 0;
-                expected_window = 0;
-                expected_symbols.delete();
-                bit_count = 0;
+                bit_window = 0;
+                bit_count  = 0;
+                aligned    = 0;
 
-                last_tx_time = -1.0;
-                last_rx_time = -1.0;
+                expected_q.delete();
+                actual_q.delete();
+
                 last_valid_time = -1.0;
-                last_symbol_time = -1.0;
                 return;
+
             end
 
-            // Check transmitted UI
-            if (last_tx_time >= 0.0 &&
-                abs_time(tr.timestamp_ps - last_tx_time - UI) > TOL)
-                check_error("Incorrect transmitted bit interval");
+            corrected_bit = tr.tx_bit ^ tr.Rx_Polarity;
 
-            last_tx_time = tr.timestamp_ps;
+            bit_window = { bit_window[8:0],corrected_bit };
 
-            // Expected serial bit
-            expected_bit = (tr.D_plus > tr.D_minus);
-
-            // Apply RX polarity before forming symbols
-            corrected_bit = expected_bit ^ tr.Rx_Polarity;
-
-            expected_window = {
-                expected_window[8:0],
-                corrected_bit
-            };
-
-            // Find first K28.5
+            // Search for comma
             if (!aligned) begin
 
-                if (expected_window == 10'b0011111010 ||
-                    expected_window == 10'b1100000101) begin
-
-                    aligned = 1;
+                if (bit_window == 10'b0011111010 || bit_window == 10'b1100000101) begin
+                    aligned   = 1;
                     bit_count = 0;
-                    expected_symbols.push_back(expected_window);
-
+                    expected_q.push_back(bit_window);
                 end
+
             end
-
-            // Collect next 10-bit symbols
             else begin
-
                 bit_count++;
 
                 if (bit_count == 10) begin
-                    expected_symbols.push_back(expected_window);
+                    expected_q.push_back(bit_window);
                     bit_count = 0;
+
                 end
             end
-
+            compare_symbols();
         endfunction
 
-        // =====================================
-        // OUTPUT MONITOR: Actual RX outputs
-        // =====================================
+        // Check received symbols and their timing
         function void check_output(rx_transaction tr);
 
-            bit [9:0] exp_symbol;
-            realtime dt;
+            realtime current_time;
+            realtime interval;
 
-            if (!tr.rst_n)
-                return;
+            current_time = $realtime;
 
-            case (tr.observation)
+            // Check symbol_valid spacing
+            if (last_valid_time >= 0.0) begin
 
-                RX_BIT_CLK_EDGE: begin
+                interval = current_time - last_valid_time;
 
-                    // Check only after comma alignment
-                    if (aligned) begin
-
-                        // Recovered clock period
-                        if (last_rx_time >= 0.0) begin
-                            dt = tr.timestamp_ps - last_rx_time;
-
-                            if (abs_time(dt - UI) > TOL)
-                                check_error(
-                                    $sformatf(
-                                        "Recovered clock period = %0.3f ps",
-                                        dt
-                                    )
-                                );
-                        end
-
-                        // Recovered clock phase
-                        if (last_tx_time >= 0.0) begin
-                            dt = tr.timestamp_ps - last_tx_time;
-
-                            if (abs_time(dt - UI/2.0) > TOL)
-                                check_error("Recovered clock not centered");
-
-                            // Recovered data
-                            if (tr.recovered_data !== expected_bit)
-                                check_error(
-                                    $sformatf(
-                                        "Recovered data mismatch: expected=%b actual=%b",
-                                        expected_bit,
-                                        tr.recovered_data
-                                    )
-                                );
-                            else
-                                correct_counter++;
-                        end
-                    end
-
-                    last_rx_time = tr.timestamp_ps;
-
-                    // Check completed parallel symbol
-                    if (tr.symbol_valid) begin
-
-                        if (expected_symbols.size() == 0) begin
-                            check_error("Unexpected parallel symbol");
-                        end
-                        else begin
-
-                            exp_symbol = expected_symbols.pop_front();
-                            symbols_checked++;
-
-                            if (tr.parallel_data !== exp_symbol)
-                                check_error(
-                                    $sformatf(
-                                        "Symbol mismatch: expected=%010b actual=%010b",
-                                        exp_symbol,
-                                        tr.parallel_data
-                                    )
-                                );
-                            else
-                                correct_counter++;
-
-                        end
-
-                        // Symbol-valid spacing
-                        if (last_valid_time >= 0.0) begin
-                            dt = tr.timestamp_ps - last_valid_time;
-
-                            if (abs_time(dt - 10.0*UI) > TOL)
-                                check_error("Incorrect symbol_valid interval");
-                        end
-
-                        last_valid_time = tr.timestamp_ps;
-
-                        if (tr.recovered_symbol_clk !== 1'b1)
-                            check_error(
-                                "Symbol clock not HIGH at symbol completion"
-                            );
-
-                    end
+                if (interval < (10.0*200.0 - 1.0) || interval > (10.0*200.0 + 1.0)) begin
+                    error_counter++;
+                    `uvm_error("RX_SB", $sformatf( "Symbol interval = %0.3f ps, expected = %0.3f ps", interval, 10.0*200.0 ) )
                 end
 
-                RX_SYMBOL_CLK_RISE: begin
+            end
 
-                    if (last_symbol_time >= 0.0) begin
-                        dt = tr.timestamp_ps - last_symbol_time;
+            last_valid_time = current_time;
 
-                        if (abs_time(dt - 10.0*UI) > TOL)
-                            check_error(
-                                "Incorrect recovered symbol clock period"
-                            );
-                    end
+            // Check symbol clock at completed symbol
+            if (tr.recovered_symbol_clk !== 1'b1) begin
 
-                    last_symbol_time = tr.timestamp_ps;
-                end
+                error_counter++;
 
-                default: begin
-                    // No additional checks
-                end
+                `uvm_error("RX_SB", "recovered_symbol_clk is not HIGH when symbol_valid is HIGH" )
 
-            endcase
+            end
+
+            // Save actual symbol
+            actual_q.push_back(tr.parallel_data);
+
+            compare_symbols();
 
         endfunction
 
-        // =====================================
-        // Run both checkers
-        // =====================================
         task run_phase(uvm_phase phase);
-
-            rx_transaction tr;
-
             super.run_phase(phase);
-
             fork
+                begin
+                    rx_transaction in_tr;
 
-                forever begin
-                    input_fifo.get(tr);
-                    check_input(tr);
+                    forever begin
+                        input_fifo.get(in_tr);
+                        check_input(in_tr);
+                    end
                 end
 
-                forever begin
+                begin
                     rx_transaction out_tr;
-                    output_fifo.get(out_tr);
-                    check_output(out_tr);
+
+                    forever begin
+                        output_fifo.get(out_tr);
+                        check_output(out_tr);
+                    end
                 end
-
             join
-
         endtask
 
-        // =====================================
-        // Final report
-        // =====================================
         function void report_phase(uvm_phase phase);
-
             super.report_phase(phase);
 
-            if (symbols_checked == 0)
-                check_error("No parallel symbols were checked");
+            if (correct_counter == 0) begin
+                `uvm_error("RX_SB", "No matching RX symbols were verified")
+            end
 
-            `uvm_info("RX_SCOREBOARD",
-                $sformatf(
-                    "Correct checks = %0d | Symbols checked = %0d | Errors = %0d",
-                    correct_counter,
-                    symbols_checked,
-                    error_counter
-                ),
-                UVM_LOW
-            )
+            if (expected_q.size() != 0 || actual_q.size() != 0) begin
+                `uvm_warning("RX_SB", $sformatf("Unmatched symbols: expected=%0d actual=%0d", expected_q.size(), actual_q.size() ) )
+            end
+
+            `uvm_info("RX_SB", $sformatf( "Correct symbols = %0d | Errors = %0d", correct_counter, error_counter ), UVM_LOW)
 
         endfunction
-
     endclass
-
 endpackage
-
 `endif

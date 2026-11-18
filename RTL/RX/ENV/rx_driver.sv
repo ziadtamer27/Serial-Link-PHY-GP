@@ -16,16 +16,24 @@ package rx_driver_pkg;
         endfunction
 
         task run_phase(uvm_phase phase);
+
             rx_transaction tr;
             vif = cfg.get_vif();
+
             forever begin
+
                 seq_item_port.get_next_item(tr);
-                @(negedge vif.clk);
-                vif.D_plus  <= tr.tx_bit ? 0.5 : -0.5;
-                vif.D_minus <= tr.tx_bit ? -0.5 : 0.5;
-                vif.rst_n <= tr.rst_n;
-                vif.Rx_Polarity <= tr.Rx_Polarity;
+
+                @(vif.drive_cb);
+
+                vif.drive_cb.D_plus <= tr.tx_bit ? 0.5 : -0.5;
+                vif.drive_cb.D_minus <= tr.tx_bit ? -0.5 : 0.5;
+
+                vif.drive_cb.rst_n <= tr.rst_n;
+                vif.drive_cb.Rx_Polarity <= tr.Rx_Polarity;
+
                 seq_item_port.item_done();
+
             end
         endtask
     endclass

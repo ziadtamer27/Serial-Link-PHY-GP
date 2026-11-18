@@ -25,21 +25,24 @@ package rx_output_monitor_pkg;
         endfunction
 
         task run_phase(uvm_phase phase);
-            vif = cfg.get_vif();
-            forever begin
-                @(negedge vif.recovered_clk);
 
-                if (vif.rst_n && vif.symbol_valid) begin
+            vif = cfg.get_vif();
+
+            forever begin
+                @(vif.output_cb);
+
+                if (vif.output_cb.rst_n === 1'b1 && vif.output_cb.symbol_valid === 1'b1) begin
 
                     trans = rx_transaction::type_id::create("trans");
-
-                    trans.parallel_data        = vif.parallel_data;
-                    trans.symbol_valid         = vif.symbol_valid;
-                    trans.recovered_symbol_clk = vif.recovered_symbol_clk;
-
+                    trans.rst_n = vif.output_cb.rst_n;
+                    trans.recovered_data = vif.output_cb.recovered_data;
+                    trans.parallel_data = vif.output_cb.parallel_data;
+                    trans.symbol_valid = vif.output_cb.symbol_valid;
+                    trans.recovered_symbol_clk = vif.output_cb.recovered_symbol_clk;
                     monitor_ap.write(trans);
 
                 end
+
             end
         endtask
     endclass
