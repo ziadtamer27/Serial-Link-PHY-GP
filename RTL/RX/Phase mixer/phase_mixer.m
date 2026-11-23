@@ -2,20 +2,19 @@ clc;
 clear;
 close all;
 
-%% Phase Mixer Parameters
+%% Parameters
 
-f_clk = 2.5e9;        % Clock frequency = 2.5 GHz
-T = 1/f_clk;          % Clock period = 400 ps
-A = 1;                % Clock amplitude = 1 V
+f_clk = 2.5e9;        % frequency = 2.5 GHz
+T = 1/f_clk;          % period = 400 ps
+A = 1;                % amplitude = 1 V
 
 N = 1000;             % Samples per clock period
-fs = N*f_clk;         % Sampling frequency
-dt = 1/fs;            % Sampling interval
+dt = T/N;            % Sampling interval
 
 num_cycles = 5;       % Number of clock cycles
 t = 0:dt:num_cycles*T-dt;
 
-%% Generate Four Quadrature Clocks
+%% Generate Four Clocks
 
 omega = 2*pi*f_clk;
 
@@ -23,6 +22,56 @@ CLK0   = A*cos(omega*t);
 CLK90  = A*cos(omega*t - pi/2);
 CLK180 = A*cos(omega*t - pi);
 CLK270 = A*cos(omega*t - 3*pi/2);
+
+%% 8 bit input 
+
+phase_code = '01010011';
+phase_quadrant = phase_code(1:2);   % First 2 bits
+phase_angle = phase_code(3:8);  % Remaining 6 bits
+decimal_quad = bin2dec(phase_quadrant);
+decimal_angle = bin2dec(phase_angle);
+
+disp(decimal_quad);
+disp(decimal_angle);
+
+%% calculate theta
+
+theta = (90/64)*decimal_angle;
+
+%% Quad Selection
+
+switch decimal_quad
+    case 0
+        CLK_A = CLK0;
+        CLK_B = CLK90;
+
+    case 1
+        CLK_A = CLK90;
+        CLK_B = CLK180;
+
+    case 2
+        CLK_A = CLK180;
+        CLK_B = CLK270;
+
+    case 3
+        CLK_A = CLK270;
+        CLK_B = CLK0;
+end
+
+%% wa and wb
+
+wa = cos(theta*(pi/180));
+wb = sin(theta*(pi/180)); 
+
+%% output clock 
+
+CLK_OUT = wa * CLK_A + wb * CLK_B;
+
+%% phase comparison
+
+phase_desired = decimal_quad*90 + theta;
+phase_actual = decimal_quad*90 + atan2d(wb, wa) ;
+phase_error = phase_actual - phase_desired;
 
 %% Plot Input Clocks
 
@@ -41,61 +90,6 @@ title('Four Quadrature Input Clocks');
 legend('CLK0', 'CLK90', 'CLK180', 'CLK270');
 grid on;
 xlim([0 2*T*1e12]);
-
-%% 8 bit input 
-
-phase_code = '01010011';
-phase_quadrant = phase_code(1:2);   % First 2 bits
-phase_angle = phase_code(3:8);  % Remaining 6 bits
-decimal_quad = bin2dec(phase_quadrant);
-decimal_angle = bin2dec(phase_angle);
-
-disp(decimal_quad);
-disp(decimal_angle);
-
-%% calculate theta
-
-theta = (90/64)*decimal_angle;
-
-
-%% Quadrant Selection
-
-switch decimal_quad
-
-    case 0
-        CLK_A = CLK0;
-        CLK_B = CLK90;
-
-    case 1
-        CLK_A = CLK90;
-        CLK_B = CLK180;
-
-    case 2
-        CLK_A = CLK180;
-        CLK_B = CLK270;
-
-    case 3
-        CLK_A = CLK270;
-        CLK_B = CLK0;
-
-end
-
-%% calculating wa and wb
-
-wa = cos(theta*(pi/180));
-wb = sin(theta*(pi/180)); 
-
-%% output clock calculating
-
-CLK_OUT = wa * CLK_A + wb * CLK_B;
-
-
-%% phase comparison
-
-phase_desired = decimal_quad*90 + theta;
-phase_actual = decimal_quad*90 + atan2d(wb, wa) ;
-
-phase_error = phase_actual - phase_desired;
 
 %% Plot Selected Clocks and Output
 
