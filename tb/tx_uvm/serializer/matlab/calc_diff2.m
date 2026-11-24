@@ -1,24 +1,21 @@
 function [tx_p, tx_n, v_diff, valid] = calc_diff2(bit_val, preset)
 
+
     if nargin < 2
         preset = 'P7';
     end
-    %%defaults the preset to P7 if the numebr of output is < 2
 
-    persistent amplitude_history is_initialized
 
-    if isempty(is_initialized)
-        amplitude_history = [];
-        presets(0, preset, true);
-        is_initialized = true;
-    end
+    persistent  raw_tx_p  raw_tx_n 
+
+
 
     % Voltage parameters
     v_cm = 1.2;
     v_od = 0.4;
 
     % Call the FFE model in presets.m
-    [y, valid] = presets(bit_val, preset, false);
+    [y, valid] = presets(bit_val, preset);
 
     % First call: no valid FFE output
     if ~valid
@@ -33,30 +30,24 @@ function [tx_p, tx_n, v_diff, valid] = calc_diff2(bit_val, preset)
 
     v_diff = tx_p - tx_n;
 
-    % Store equalized amplitudes
-    amplitude_history(end+1) = y;
 
     % Generate smooth waveforms for plotting
     samples_per_bit = 50;
     time_per_bit = 1.0; % 1 ns per bit
 
-    total_samples = length(amplitude_history) * samples_per_bit;
+    raw_tx_p = [raw_tx_p, repmat(tx_p, 1, samples_per_bit)]; %%repmat(value, no. of rows , no of col)
 
-    t = (0:total_samples-1) * ...
-        (time_per_bit / samples_per_bit);
+    raw_tx_n = [raw_tx_n, repmat(tx_n, 1, samples_per_bit)];
 
-    raw_tx_p = [];
-    raw_tx_n = [];
 
-    for a = amplitude_history
+    total_samples = length(raw_tx_p);
 
-        raw_tx_p = [raw_tx_p, ...
-            repmat(v_cm + v_od*a/2, 1, samples_per_bit)];
+    t = (0:total_samples-1) * (time_per_bit / samples_per_bit);
 
-        raw_tx_n = [raw_tx_n, ...
-            repmat(v_cm - v_od*a/2, 1, samples_per_bit)];
 
-    end
+
+
+    
 
     % Smooth waveforms for visualization
     filter_span = 11;

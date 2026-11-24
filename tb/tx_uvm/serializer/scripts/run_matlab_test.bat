@@ -1,9 +1,6 @@
 @echo off
 setlocal
 
-:: Path to MATLAB executable
-set "MATLAB_EXE=F:\programs\matlabfolder\bin\matlab.exe"
-if not exist "%MATLAB_EXE%" set "MATLAB_EXE=matlab"
 
 :: Resolve path to the serializer\matlab directory
 for %%I in ("%~dp0..\matlab") do set "MATLAB_DIR=%%~fI"
@@ -14,6 +11,6 @@ echo Directory: %MATLAB_DIR%
 echo ========================================================
 
 :: Run test_differential.m and keep MATLAB open so the figure window stays visible
-"%MATLAB_EXE%" -nosplash -r "cd('%MATLAB_DIR%'); test_differential;"
+matlab -r "cd('%MATLAB_DIR%'); test_differential;"
 
 endlocal
