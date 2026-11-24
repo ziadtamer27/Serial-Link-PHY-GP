@@ -260,7 +260,7 @@ class ser_scoreboard extends uvm_scoreboard;
             // ------------------------------------------------
             // Reset
             // ------------------------------------------------
-            if (!sb_seq_item.rst_n) begin
+            if (sb_seq_item.rst_n !== 1'b1) begin
 
                 bit_count     = 0;
                 expected_data = 0;
