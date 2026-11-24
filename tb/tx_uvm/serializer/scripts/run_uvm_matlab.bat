@@ -8,11 +8,11 @@ set "PATH=F:\programs\matlabfolder\bin\win64;%PATH%"
 set "LM_LICENSE_FILE=A:\programs\questa\mgcld.lic"
 set "MGLS_LICENSE_FILE=A:\programs\questa\mgcld.lic"
 
-:: Ensure working directory is the serializer folder
-set "SCRIPT_DIR=%~dp0"
-cd /d "%SCRIPT_DIR%"
+:: Ensure working directory is the serializer folder (parent of scripts\)
+for %%I in ("%~dp0..") do set "SER_DIR=%%~fI"
+cd /d "%SER_DIR%"
 
-:: 3. Compile C-DPI MATLAB Bridge DLL if missing or requested
+:: 3. Compile C-DPI MATLAB Bridge DLL if missing
 if not exist matlab_bridge.dll (
     echo ========================================================
     echo [STEP 1] Compiling C-DPI MATLAB Bridge DLL with GCC...
@@ -47,11 +47,11 @@ echo [STEP 3] Running Simulation with QuestaSim and MATLAB DPI...
 echo ========================================================
 if /i "%1"=="gui" (
     echo Launching QuestaSim in GUI mode...
-    vsim -gui -voptargs=+acc work.top -sv_lib matlab_bridge -classdebug -uvmcontrol=all -cover -do run_uvm_gui.do
+    vsim -gui -voptargs=+acc work.top -sv_lib matlab_bridge -classdebug -uvmcontrol=all -cover -do "add wave -position insertpoint sim:/top/clk; add wave -position insertpoint sim:/top/ser_if_inst/rst_n; add wave -position insertpoint sim:/top/ser_if_inst/parallel_data; add wave -position insertpoint sim:/top/ser_if_inst/serial_out; run -all; coverage save -onexit ser_coverage.ucdb; coverage report -file ser_coverage.txt -details -all"
 ) else (
     echo Launching QuestaSim in CLI mode...
     echo (Tip: Run "run_uvm_matlab.bat gui" to open Questa GUI with waveforms)
-    vsim -c -voptargs=+acc work.top -sv_lib matlab_bridge -classdebug -uvmcontrol=all -cover -do run_uvm_cli.do
+    vsim -c -voptargs=+acc work.top -sv_lib matlab_bridge -classdebug -uvmcontrol=all -cover -do "run -all; coverage save -onexit ser_coverage.ucdb; coverage report -file ser_coverage.txt -details -all; quit -f"
 )
 
 echo.
