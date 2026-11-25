@@ -1,0 +1,32 @@
+# Reading pref.tcl
+# //  Questa Sim-64
+# //  Version 2021.1 win64 Jan 19 2021
+# //
+# //  Copyright 1991-2021 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# do compile_and_launch.tcl
+# ** Error: (vish-7) Failed to open -f file "parameter_pll_pfd_freq.cfg" in read mode.
+# No such file or directory. (errno = ENOENT)
+# Use the -help option for complete vsim usage.
+# Error in macro ./compile_and_launch.tcl line 47
+# 
+#     while executing
+# "ExpandDashFileSwitch $cmdline "
+#     (procedure "vsim" line 36)
+#     invoked from within
+# "vsim pll_pfd_freq -t 1fs -voptargs=+acc -f parameter_pll_pfd_freq.cfg -foreign {simlinkserver {D:/DIGITAL/MATLAB/toolbox/edalink/extensions/modelsim/w..."
+#     ("uplevel" body line 1)
+#     invoked from within
+# "uplevel 1 [join $args]"
+#     (procedure "vsimulink" line 17)
+#     invoked from within
+# "vsimulink pll_pfd_freq -t 1fs -voptargs=+acc  -f parameter_pll_pfd_freq.cfg -socket 63521"

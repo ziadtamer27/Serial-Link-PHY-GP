@@ -1,0 +1,139 @@
+m255
+K4
+z2
+Z0 !s99 nomlopt
+R0
+R0
+!s11f vlog 2021.1 2021.01, Jan 19 2021
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z1 dD:/ASU/GP/PLL_LAST_RELEASE/PLL0_build
+T_opt
+Z2 !s110 1795542042
+VmTE]oDQ^?LZ7HC2=Ga:c;1
+Z3 04 11 4 work tb_pll0_dpi fast 0
+=1-e4a8dfe8b310-6b05cc1a-2ad-36e8
+Z4 !s124 OEM100
+o-quiet -auto_acc_if_foreign -work work
+Z5 tCvgOpt 0
+n@_opt
+Z6 OL;O;2021.1;73
+R1
+T_opt1
+!s110 1795542179
+VdGP:L;AWz7oTUbz7oJTI73
+R3
+=1-e4a8dfe8b310-6b05cca2-2df-25c4
+R4
+o-quiet -auto_acc_if_foreign -work work +acc
+R5
+n@_opt1
+R6
+vPLL0_dpi
+Z7 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z8 DXx4 work 12 PLL0_dpi_pkg 0 22 <_;BIP`6c6NObI_^XT?GC1
+DXx4 work 16 PLL0_dpi_sv_unit 0 22 ZWRPNl;JSdAo@hceZhe4?3
+R2
+Z9 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+!i10b 1
+!s100 HkU06CliVSd8X<NNf<N>20
+I>WSKT]U?RjVIXFD]F=P??1
+!s105 PLL0_dpi_sv_unit
+S1
+R1
+Z10 w1795541604
+Z11 8PLL0_dpi.sv
+Z12 FPLL0_dpi.sv
+!i122 1
+L0 11 43
+Z13 OL;L;2021.1;73
+31
+Z14 !s108 1795542042.000000
+Z15 !s107 tb_pll0_dpi.sv|PLL0_dpi.sv|PLL0_dpi_pkg.sv|
+Z16 !s90 -reportprogress|300|-sv|PLL0_dpi_pkg.sv|PLL0_dpi.sv|tb_pll0_dpi.sv|
+!i113 0
+Z17 o-sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R5
+n@p@l@l0_dpi
+XPLL0_dpi_pkg
+R7
+R2
+!i10b 1
+!s100 Q_U>SZ:`AI20SS8]U^OPz2
+I<_;BIP`6c6NObI_^XT?GC1
+S1
+R1
+R10
+8PLL0_dpi_pkg.sv
+FPLL0_dpi_pkg.sv
+!i122 1
+L0 6 0
+V<_;BIP`6c6NObI_^XT?GC1
+R13
+r1
+!s85 0
+31
+R14
+R15
+R16
+!i113 0
+R17
+R5
+n@p@l@l0_dpi_pkg
+XPLL0_dpi_sv_unit
+R7
+R8
+R2
+VZWRPNl;JSdAo@hceZhe4?3
+r1
+!s85 0
+!i10b 1
+!s100 PA@;Ni;O=YYE=2ZkJ`<3V1
+IZWRPNl;JSdAo@hceZhe4?3
+!i103 1
+S1
+R1
+R10
+R11
+R12
+!i122 1
+L0 7 0
+R13
+31
+R14
+R15
+R16
+!i113 0
+R17
+R5
+n@p@l@l0_dpi_sv_unit
+vtb_pll0_dpi
+R7
+R2
+!i10b 1
+!s100 h]2BQ[ReJ]iX=aMz3oP=W1
+IV4D?^d?8QbHnT7ZNLUhC10
+S1
+R1
+w1795542012
+8tb_pll0_dpi.sv
+Ftb_pll0_dpi.sv
+!i122 1
+L0 1 88
+R9
+R13
+r1
+!s85 0
+31
+R14
+R15
+R16
+!i113 0
+R17
+R5
