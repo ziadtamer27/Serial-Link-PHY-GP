@@ -5,7 +5,7 @@ function [tx_p, tx_n, v_diff, valid] = calc_differential(bit_val)
 
     if isempty(is_initialized)
         amplitude_history = [];
-        presets(0, 'P4', true);
+        clear FFE;
         is_initialized = true;
     end
 
@@ -13,8 +13,8 @@ function [tx_p, tx_n, v_diff, valid] = calc_differential(bit_val)
     v_cm = 1.2;  % Common-mode voltage (1.2 V)
     v_od = 0.4;  % Differential output swing (0.4 V)
 
-    % Call the FFE model in presets.m
-    [y, valid] = presets(bit_val, 'P4', false);
+    % Call the FFE model in FFE.m
+    [bit_multiplier, valid] = FFE(bit_val, 'P4');
 
     % First call: no valid FFE output (1 clk cycle delay)
     if ~valid
@@ -24,12 +24,12 @@ function [tx_p, tx_n, v_diff, valid] = calc_differential(bit_val)
         return;
     end
 
-    tx_p = v_cm + (v_od / 2) * y;
-    tx_n = v_cm - (v_od / 2) * y;
+    tx_p = v_cm + (v_od / 2) * bit_multiplier;
+    tx_n = v_cm - (v_od / 2) * bit_multiplier;
     v_diff = tx_p - tx_n;
 
     % Store equalized amplitudes
-    amplitude_history(end+1) = y;
+    amplitude_history(end+1) = bit_multiplier;
 
     % Generate oversampled waveforms for plotting
     samples_per_bit = 50;

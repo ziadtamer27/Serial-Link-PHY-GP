@@ -25,7 +25,7 @@ void get_differential_out(unsigned char bit_val, double *tx_p, double *tx_n, dou
         engSetVisible(ep, 1);
 
         // Clear previous history and set working directory to the matlab folder
-        engEvalString(ep, "cd 'A:/college/senior 2 term 1/GP/Serial-Link-PHY-GP/tb/tx_uvm/serializer/matlab'; clear calc_differential calc_diff2 presets channel_effect;");
+        engEvalString(ep, "cd 'A:/college/senior 2 term 1/GP/Serial-Link-PHY-GP/tb/tx_uvm/serializer/matlab'; clear calc_differential calc_diff2 FFE channel_effect;");
         printf("[C-DPI] MATLAB Engine connected and set to VISIBLE.\n");
         fflush(stdout);
     }

@@ -1,23 +1,22 @@
 function [tx_p, tx_n, v_diff, valid] = calc_diff2(bit_val, preset)
-
+% CALC_DIFF2 Converts serialized bit stream into equalized & un-equalized
+% differential signals, passes both through the channel model, and plots
+% pre-channel waveforms and post-channel eye diagrams (With vs. Without FFE).
 
     if nargin < 2
         preset = 'P7';
     end
 
-
-    persistent  raw_tx_p  raw_tx_n 
-
-
+    persistent raw_tx_p_ffe raw_tx_n_ffe raw_tx_p_no_ffe raw_tx_n_no_ffe
 
     % Voltage parameters
     v_cm = 1.2;
     v_od = 0.4;
 
-    % Call the FFE model in presets.m
-    [y, valid] = presets(bit_val, preset);
+    % Call the 3-tap FFE model in FFE.m (get_bit_multiplier)
+    [bit_multiplier, valid, bit_multiplier_no_ffe] = FFE(bit_val, preset);
 
-    % First call: no valid FFE output
+    % First call: 1-UI pipeline lookahead delay (no valid output yet)
     if ~valid
         tx_p = v_cm;
         tx_n = v_cm;
@@ -25,90 +24,36 @@ function [tx_p, tx_n, v_diff, valid] = calc_diff2(bit_val, preset)
         return;
     end
 
-    tx_p = v_cm + (v_od / 2) * y;
-    tx_n = v_cm - (v_od / 2) * y;
-
+    % Equalized transmitter outputs (With FFE)
+    tx_p = v_cm + (v_od / 2) * bit_multiplier;
+    tx_n = v_cm - (v_od / 2) * bit_multiplier;
     v_diff = tx_p - tx_n;
 
+    % Un-equalized transmitter outputs (Without FFE, for baseline comparison)
+    tx_p_no_ffe = v_cm + (v_od / 2) * bit_multiplier_no_ffe;
+    tx_n_no_ffe = v_cm - (v_od / 2) * bit_multiplier_no_ffe;
 
-    % Generate smooth waveforms for plotting
+    % Oversampling parameters
     samples_per_bit = 50;
     time_per_bit = 1.0; % 1 ns per bit
 
-    raw_tx_p = [raw_tx_p, repmat(tx_p, 1, samples_per_bit)]; %%repmat(value, no. of rows , no of col)
+    % Append current UI samples to persistent waveform histories
+    raw_tx_p_ffe    = [raw_tx_p_ffe,    repmat(tx_p,        1, samples_per_bit)];
+    raw_tx_n_ffe    = [raw_tx_n_ffe,    repmat(tx_n,        1, samples_per_bit)];
+    raw_tx_p_no_ffe = [raw_tx_p_no_ffe, repmat(tx_p_no_ffe, 1, samples_per_bit)];
+    raw_tx_n_no_ffe = [raw_tx_n_no_ffe, repmat(tx_n_no_ffe, 1, samples_per_bit)];
 
-    raw_tx_n = [raw_tx_n, repmat(tx_n, 1, samples_per_bit)];
-
-
-    total_samples = length(raw_tx_p);
-
+    total_samples = length(raw_tx_p_ffe);
     t = (0:total_samples-1) * (time_per_bit / samples_per_bit);
 
+    % Pass both With-FFE and Without-FFE waveforms through the channel model
+    [ch_tx_p_ffe,    ch_tx_n_ffe,    ch_v_diff_ffe]    = channel_effect(raw_tx_p_ffe,    raw_tx_n_ffe,    samples_per_bit, time_per_bit);
+    [ch_tx_p_no_ffe, ch_tx_n_no_ffe, ch_v_diff_no_ffe] = channel_effect(raw_tx_p_no_ffe, raw_tx_n_no_ffe, samples_per_bit, time_per_bit);
 
-
-
-    
-
-    % Smooth waveforms for visualization
-    filter_span = 11;
-
-    smooth_tx_p = movmean(raw_tx_p, filter_span);
-    smooth_tx_n = movmean(raw_tx_n, filter_span);
-    smooth_v_diff = smooth_tx_p - smooth_tx_n;
-
-    % Plotting
-    fig = figure(1);
-
-    if isempty(get(fig, 'UserData'))
-        set(fig, 'Name', 'SerDes FFE Transmitter Waveforms', ...
-                 'NumberTitle', 'off', ...
-                 'Color', [0.95 0.95 0.97], ...
-                 'Units', 'normalized', ...
-                 'OuterPosition', [0.02 0.10 0.46 0.82], ...
-                 'UserData', true);
-    end
-
-    % TX+ and TX-
-    subplot(2, 1, 1);
-
-    plot(t, smooth_tx_p, 'r-', 'LineWidth', 2.2);
-    hold on;
-
-    plot(t, smooth_tx_n, 'b-', 'LineWidth', 2.2);
-
-    yline(v_cm, 'k--', 'V_{CM} = 1.2 V', ...
-          'LineWidth', 1.2);
-
-    hold off;
-    grid on;
-    ylim([0.8 1.6]);
-
-    title('Equalized Differential Outputs (TX+ and TX-)');
-    xlabel('Time (ns)');
-    ylabel('Voltage (V)');
-
-    legend('TX+', 'TX-', 'Location', 'northeast');
-
-    % Differential voltage
-    subplot(2, 1, 2);
-
-    plot(t, smooth_v_diff, 'm-', 'LineWidth', 2.5);
-
-    yline(0, 'k-', 'LineWidth', 1.0);
-
-    grid on;
-    ylim([-0.6 0.6]);
-
-    title('Equalized Differential Voltage');
-    xlabel('Time (ns)');
-    ylabel('Differential Voltage (V)');
-
-    legend('V_{diff}', 'Location', 'northeast');
-
-    % Pass FFE output through the channel model and plot channel waveforms & eye diagram
-    channel_effect(t, raw_tx_p, raw_tx_n, v_cm, samples_per_bit, time_per_bit);
-
-    drawnow;
-    shg;
+    % Render Figure 1 (TX waveforms) and Figure 2 (Channel & Dual Eye Diagrams)
+    plotting(t, raw_tx_p_ffe, raw_tx_n_ffe, v_cm, ...
+             ch_tx_p_ffe, ch_tx_n_ffe, ch_v_diff_ffe, ...
+             ch_tx_p_no_ffe, ch_tx_n_no_ffe, ch_v_diff_no_ffe, ...
+             samples_per_bit, time_per_bit);
 
 end
