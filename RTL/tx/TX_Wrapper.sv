@@ -1,71 +1,132 @@
-module TX_Wrapper (
-
+module TX_Wrapper #(
+    parameter int DATA_WIDTH = 8,
+    localparam int K_WIDTH = DATA_WIDTH / 8
+)(
     // CLOCKS AND RESET
     input logic pclk,
-    input logic bit_rate_clk_div10,
     input logic bit_rate_clk,
     input logic rst_n,
 
     // TRANSMITTER INPUTS
-    input logic       tx_valid, //////
-    input logic [7:0] tx_data,
-    input logic       tx_data_k, //////
+    input logic                  tx_valid,
+    input logic [DATA_WIDTH-1:0] tx_data,
+    input logic [K_WIDTH-1:0]    tx_data_k,
 
     // TRANSMITTER OUTPUTS
     output logic tx_p,
     output logic tx_n,
 
-    // Debug / status outputs
+    // DEBUG / STATUS OUTPUTS
     output logic tx_serial_out,
-    output logic tx_invalid_k,  //////
-    output logic tx_rd_positive //////
+    output logic tx_invalid_k,
+    output logic tx_rd_positive
 );
 
+    // ==========================================
+    // CLOCK DIVIDER
+    // ==========================================
+
+    logic bit_rate_clk_div10;
+    logic [3:0] div_counter;
+
+    always_ff @(posedge bit_rate_clk or negedge rst_n) begin
+        if (!rst_n) begin
+            div_counter        <= 4'd0;
+            bit_rate_clk_div10 <= 1'b0;
+        end
+        else begin
+            if (div_counter == 4'd4) begin
+                div_counter        <= 4'd0;
+                bit_rate_clk_div10 <= ~bit_rate_clk_div10;
+            end
+            else begin
+                div_counter <= div_counter + 1'b1;
+            end
+        end
+    end
+
+    // ==========================================
+    // INTERNAL SIGNALS
+    // ==========================================
+
+    // Optional -> Encoder
+    logic [7:0] encoder_data;
+    logic       encoder_k;
+    logic       encoder_valid;
+
     // Encoder -> Serializer
-    logic [9:0] encoded_data;
-    logic       encoded_valid;
+    logic [9:0] serializer_data;
+    logic       serializer_valid;
 
     // Serializer output
     logic serial_data;
 
+    // ==========================================
+    // OPTIONAL WIDTH CONVERSION
+    // ==========================================
+
+    optional #(
+        .DATA_WIDTH(DATA_WIDTH)
+    ) optional_inst (
+        .pclk       (pclk),
+        .symbol_clk (bit_rate_clk_div10),
+        .rst_n      (rst_n),
+        .enable     (tx_valid),
+
+        .tx_data    (tx_data),
+        .tx_data_k  (tx_data_k),
+
+        .data_out   (encoder_data),
+        .k_out      (encoder_k),
+        .valid_out  (encoder_valid)
+    );
+
+    // ==========================================
     // 8b/10b ENCODER
+    // ==========================================
+
     encoder_8b10b_top u_encoder (
-        .clk         (bit_rate_clk_div10), // bit_rate_clk or bit_rate_clk_div10?
+        .clk         (bit_rate_clk_div10),
         .rst_n       (rst_n),
 
-        .in_valid    (tx_valid),
-        .in_data     (tx_data),
-        .in_is_k     (tx_data_k),
+        .in_valid    (encoder_valid),
+        .in_data     (encoder_data),
+        .in_is_k     (encoder_k),
 
-        .out_valid   (encoded_valid),
-        .out_data    (encoded_data),
+        .out_valid   (serializer_valid),
+        .out_data    (serializer_data),
 
         .invalid_k   (tx_invalid_k),
         .rd_positive (tx_rd_positive)
     );
 
-    // assign fifo_clk = loopback ? rx_clk : bit_rate_clk_div10;
-    // assign fifo_data = loopback ? rx_data : encoded_data;
+    // ==========================================
+    // LOOPBACK (Future implementation)
+    // ==========================================
 
-    // fifo
 
+    // ==========================================
     // PARALLEL-TO-SERIAL CONVERTER
+    // ==========================================
+
     serializer u_serializer (
-        .pclk          (pclk),
-        .bit_rate_clk  (bit_rate_clk),
-        .rst_n         (rst_n),
+        .bit_rate_clk_div10 (bit_rate_clk_div10),
+        .bit_rate_clk       (bit_rate_clk),
+        .rst_n              (rst_n),
 
-        .enable        (encoded_valid),
-        .parallel_data (encoded_data),
+        .enable             (serializer_valid),
+        .parallel_data      (serializer_data),
 
-        .serial_out    (serial_data)
+        .serial_out         (serial_data)
     );
+
+    // ==========================================
+    // DIFFERENTIAL DRIVER
+    // ==========================================
 
     assign tx_serial_out = serial_data;
 
-    // TRANSMITTER DIFFERENTIAL DRIVER
-    // Temprorarily using a simple assignment for the differential driver.
-    assign tx_p = serial_data;
+    assign tx_p =  serial_data;
     assign tx_n = ~serial_data;
 
 endmodule
