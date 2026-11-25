@@ -1,0 +1,9 @@
+EXPORTS
+DPI_PLL0_initialize
+DPI_PLL0_reset
+DPI_PLL0_output
+DPI_PLL0_update
+DPI_PLL0_terminate
+
+
+PLL0_GetCAPIStaticMap

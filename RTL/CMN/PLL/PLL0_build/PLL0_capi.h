@@ -1,0 +1,25 @@
+/*
+ * PLL0_capi.h
+ *
+ * Code generation for model "PLL0".
+ *
+ * Model version              : 1.3
+ * Simulink Coder version : 9.9 (R2023a) 19-Nov-2022
+ * C source code generated on : Tue Nov 24 19:33:21 2026
+ *
+ * Target selection: systemverilog_dpi_grt.tlc
+ * Note: GRT includes extra infrastructure and instrumentation for prototyping
+ * Embedded hardware selection: Intel->x86-64 (Windows64)
+ * Code generation objectives: Unspecified
+ * Validation result: Not run
+ */
+
+#ifndef RTW_HEADER_PLL0_capi_h_
+#define RTW_HEADER_PLL0_capi_h_
+#include "PLL0.h"
+
+extern void PLL0_InitializeDataMapInfo(RT_MODEL_PLL0_T *const PLL0_M);
+
+#endif                                 /* RTW_HEADER_PLL0_capi_h_ */
+
+/* EOF: PLL0_capi.h */

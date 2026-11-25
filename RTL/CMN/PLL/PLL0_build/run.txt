@@ -1,0 +1,13 @@
+cd "D:/ASU/GP/PLL_LAST_RELEASE/PLL0_build"
+vsim -t 1fs -voptargs=+acc -sv_lib ./PLL0_win64 work.tb_pll0_dpi
+onfinish stop
+
+view wave
+add wave -radix unsigned sim:/tb_pll0_dpi/Fref
+add wave sim:/tb_pll0_dpi/pll_clk
+add wave -radix unsigned sim:/tb_pll0_dpi/rst_N
+add wave sim:/tb_pll0_dpi/wrapper_reset
+add wave sim:/tb_pll0_dpi/clk
+
+run -all
+wave zoom range 20us 20.2us
